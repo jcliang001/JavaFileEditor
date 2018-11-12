@@ -10,15 +10,16 @@ public class renameFile {
 	public static void main(String[]args) throws IOException
     {
 	
-       File curDirNode = new File("./files/inputFiles/NodeFolder/directionLines");
+       File curDirNode = new File("./files/inputFiles/NodeFolder");
       changeAllNodeFileName(curDirNode);
         
-//        File curDirRoom = new File("./files/inputFiles/RoomFolder/AnnotatedRoomPictures");
-//        changeAllRoomFileName(curDirRoom);
+        File curDirRoom = new File("./files/inputFiles/RoomFolder");
+        changeAllRoomFileName(curDirRoom);
 	
     }
-	private static void changeAllRoomFileName(File curDir) {
-		
+	private static void changeAllRoomFileName(File curDir) throws IOException {
+		FileWriter writer = null;
+  	  	writer = new FileWriter("roomList.csv",true);
 		 File[] filesList = curDir.listFiles();
 	        for(File f : filesList){
 	            if(f.isDirectory())
@@ -45,13 +46,23 @@ public class renameFile {
 	                	}
 
 	                	//ct/rooms/<node_floor>.<node_number>-ct<room_number>
-	                	String newName = ".//files//ct//room//"+node_floor+"."+node_number+"-ct"+room_number;
+	                	String newName = ".//files//hh//room//"+node_floor+"."+node_number+"-hh"+room_number;
 	                	File newFile = new File(newName+".jpg");
+	                	f.renameTo(newFile);
+	                	String newFileInput = node_floor+"."+node_number+"-hh"+room_number;
+                		try {
+                   		 writer.append(newFileInput);
+                   		 writer.append('\n');
+                   	}catch(Exception e){
+                   		System.out.println("fail to write");
+                   	}
+                	
 	                	
-	                	System.out.println(f.renameTo(newFile));
 	                
 	            }
 	        }
+	        writer.close();
+	        
 	}
     private static void changeAllNodeFileName(File curDir) throws IOException {
     	FileWriter writer = null;
@@ -97,15 +108,15 @@ public class renameFile {
                 		c = name.charAt(indexOfNextNum);
                 	}
                 	
-                	String newName = ".//files//ct//"+node1_floor+"."+node1_number+"-"+node2_floor+"."+node2_number;
+                	String newName = ".//files//hh//"+node1_floor+"."+node1_number+"-"+node2_floor+"."+node2_number;
                 	newFileInput = node1_floor+"."+node1_number+"-"+node2_floor+"."+node2_number;
                 	
                 	File newFile = new File(newName+"."+"jpg");	
-                	System.out.println(f.renameTo(newFile));
+                	f.renameTo(newFile);
                 	
                 		try {
                    		 writer.append(newFileInput);
-                   		 writer.append(',');
+                   		 writer.append('\n');
                    	}catch(Exception e){
                    		System.out.println("fail to write");
                    	}
@@ -113,7 +124,7 @@ public class renameFile {
                 	
                 	
                 	
-                 	System.out.println(newFileInput);
+                 	
 
                 }
                 
